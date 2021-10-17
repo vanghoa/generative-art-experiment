@@ -10,7 +10,7 @@ let incn = .1;
 //////////////////////////////////////////////////////////////////////////// VAR SECTION
 
 function setup() {
-  createCanvas(windowHeight, windowHeight);
+  createCanvas(windowWidth, windowHeight);
   button1 = createButton('Dừng');
   button1.position(0,0);
   button1.mousePressed(Redrawthui);
@@ -26,6 +26,30 @@ function draw() {
   background(120);
   objects = [];
   objectsline = [];
+
+  ///////////////////////
+  const divisionlong = max(width,height)/min(width,height) * division;
+
+  let widthdiv;
+  let heightdiv;
+
+  if (max(width,height) == width) {
+    widthdiv = divisionlong;
+    heightdiv = division;
+  } else {
+    widthdiv = division;
+    heightdiv = divisionlong;
+  }
+
+  const widthSz = width/widthdiv;
+  const heightSz = height/heightdiv;
+  for (let i=0; i<= heightdiv; i++) {
+    line(0, i*heightSz, width, i*heightSz);
+  }
+  for (let i=0; i<= widthdiv; i++) {
+    line(i*widthSz, 0, i*widthSz, height);
+  }
+
 
   /*
   objects.push({
@@ -50,7 +74,8 @@ function draw() {
   */
 /////////////////////////////
   inc = mouseX/mouseY * 1.2;
-  if (inc == 0 || isNaN(inc)) { inc = .1; }
+  if (inc == 0 || !Number.isFinite(inc)) { inc = .1; }
+  console.log(inc);
 
   const xoff1 = xoff1a + inc + incn;
   const xoff2 = xoff2a + inc + incn;
@@ -58,35 +83,26 @@ function draw() {
   const xoff4 = xoff4a + inc + incn;
 
   objects.push({
-    x: round(map(noise(xoff1),.2,.8,0,division*2/3 - 1)),
-    y: round(map(noise(xoff1+10),.2,.8,0,division*1/3))
+    x: round(map(noise(xoff1),.2,.8,0,widthdiv*2/3 - 1)),
+    y: round(map(noise(xoff1+10),.2,.8,0,heightdiv*1/3))
   });
 
   objects.push({
-    x: round(map(noise(xoff2),.2,.8,division*2/3, division)),
-    y: round(map(noise(xoff2+10),.2,.8,0,division*2/3 - 1))
+    x: round(map(noise(xoff2),.2,.8,widthdiv*2/3, widthdiv)),
+    y: round(map(noise(xoff2+10),.2,.8,0,heightdiv*2/3 - 1))
   });
 
   objects.push({
-    x: round(map(noise(xoff3),.2,.8,division*1/3 + 1, division)),
-    y: round(map(noise(xoff3+10),.2,.8,division*2/3, division))
+    x: round(map(noise(xoff3),.2,.8,widthdiv*1/3 + 1, widthdiv)),
+    y: round(map(noise(xoff3+10),.2,.8,heightdiv*2/3, heightdiv))
   });
   
   objects.push({
-    x: round(map(noise(xoff4),.2,.8,0, division*1/3)),
-    y: round(map(noise(xoff4+10),.2,.8,division*1/3 + 1, division))
+    x: round(map(noise(xoff4),.2,.8,0, widthdiv*1/3)),
+    y: round(map(noise(xoff4+10),.2,.8,heightdiv*1/3 + 1, heightdiv))
   });
 
   incn += .02;
-
-  ///////////////////////
-  const widthSz = width/division;
-  const heightSz = height/division;
-
-  for (let i=0; i<= division; i++) {
-    line(0, i*heightSz, width, i*heightSz);
-    line(i*widthSz, 0, i*widthSz, height);
-  }
 
   ///////////////////////
   veline(0,1);
@@ -116,7 +132,7 @@ function draw() {
 }
 
 function windowResized() {
-  resizeCanvas(windowHeight, windowHeight);
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 
@@ -126,15 +142,6 @@ function Redrawthui() {
   } else { loop(); }
 }
 
-function mousePressed() {
-  //noiseSeed(random(1,100))
-  //redraw(1);
-
-  const widthSz = width/division;
-  const heightSz = height/division;
-  fill(255,255,255);
-  rect(floor(mouseX/widthSz)*widthSz, floor(mouseY/heightSz)*heightSz, widthSz, heightSz);
-}
 
 function veline(i,k) {
     let lonx, nhox, lony, nhoy, kcdx, kcdy;
