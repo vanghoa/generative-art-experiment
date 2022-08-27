@@ -2,7 +2,7 @@ const inc = 0.07;
 let zoff = 0
 let arr = [];
 let trace;
-const size_ = innerHeight;
+const size_ = 500;
 const offsetsize = 100;
 const dist_gap = size_/30;
 const pos_rand_gap = dist_gap*2;
@@ -13,7 +13,6 @@ function setup() {
   createCanvas(size_, size_, WEBGL);
 
   trace = createGraphics(size_, size_);
-  trace.background(255,0,0);
 
   let yoff = 0;
   
@@ -35,6 +34,7 @@ function draw() {
   
   //clear();
   background(255);
+  trace.background(0,0,0);
   noStroke();
   noiseDetail(3, 0.6);
   
@@ -94,10 +94,23 @@ function draw() {
       let ave_diff = (left + top + right + bot)/4;
 
       // New color is difference between pixel and left neighbor
-      let diff = (ave_diff > 6) ? ave_diff*40 : ave_diff;
-      trace.pixels[loc    ] = diff;
-      trace.pixels[loc + 1] = diff;
-      trace.pixels[loc + 2] = diff;
+      //let diff = (ave_diff > 5) ? ave_diff*40 : ave_diff;
+
+      let diff = ave_diff;
+
+      if (ave_diff > 3) {
+        diff = ave_diff*map(ave_diff,3,5,0,40);;
+      }
+
+      trace.pixels[loc    ] += diff;
+      trace.pixels[loc + 1] += diff;
+      trace.pixels[loc + 2] += diff;
+
+      /*
+      trace.pixels[loc + 4    ] -= diff;
+      trace.pixels[loc + 4 + 1] -= diff;
+      trace.pixels[loc + 4 + 2] -= diff;
+*/
       trace.pixels[loc + 3] = 255; // Always have to set alpha
 
       function pos_compare(x_, y_) {
@@ -114,9 +127,8 @@ function draw() {
   }
   trace.updatePixels();
   clear();
-  image(trace,-size_/2,-size_/2);
+  image(trace,-width/2,-height/2);
   
-
-  zoff += 0.02;
+  zoff += 0.01;
   noLoop();
 }
