@@ -130,5 +130,5 @@ function draw() {
   image(trace,-width/2,-height/2);
   
   zoff += 0.01;
-  noLoop();
+  //noLoop();
 }
