@@ -75,7 +75,6 @@ function draw() {
 /////////////////////////////
   inc = mouseX/mouseY * 1.2;
   if (inc == 0 || !Number.isFinite(inc)) { inc = .1; }
-  console.log(inc);
 
   const xoff1 = xoff1a + inc + incn;
   const xoff2 = xoff2a + inc + incn;
