@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -8,22 +8,27 @@
   <style>
     * {
       box-sizing: border-box;
+      border-radius: 0;
     }
 
     body, h1 {
       padding: 0;
       margin: 0;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
-    button.blue {
+    button, iframe {
+      border: 2px solid black;
+    }
+
+    button.blue { 
       background: blue;
       color: white;
     }
 
     #code {
       width: 100%;
-      height: 100%;
+      height: 70vh;
     }
 
   </style>
@@ -50,35 +55,33 @@
       sauce = src;
       button.forEach((btn) => {
         btn.classList.remove('blue');
-      })
+      });
 
       if (btn) {
         btn.classList.add('blue');
-        object.src = `sketch/${sauce}.js`;
-        object.style.display = 'block';
+        code.src = `sketch/${sauce}.js`;
+        code.style.display = 'block';
       } else {
-        object.style.display = 'none';
+        code.style.display = 'none';
       }
     }
   </script>
 </head>
 
 <body>
-  <iframe style="width: 100%; height: 70vh;" src="iframe.html" onload="loadframe(this, sauce)"></iframe>
+  <iframe style="width: 100%; height: 90vh;" src="iframe.html" onload="loadframe(this, sauce)"></iframe>
   <button type="button" onclick="btnclick('')" style="background-color: red; color: white;">cancel</button>
   <button class="blue" type="button" onclick="btnclick(this.innerText, this)">blob-microbe</button>
   <button type="button" onclick="btnclick(this.innerText, this)">random-generated-polygon</button>
   <button type="button" onclick="btnclick(this.innerText, this)">python-texture-at-the-lab</button>
   <h1>Bao Anh's p5js</h1>
 
-  <iframe id="code" src="sketch/blob-microbe.js">
-    fuck
-  </iframe>
+  <iframe id="code" src="sketch/blob-microbe.js"></iframe>
 
   <script>
     const iframe = document.querySelector('iframe');
     const button = document.querySelectorAll('button');
-    const object = document.querySelector('#code');
+    const code = document.querySelector('#code');
   </script>
 </body>
 
